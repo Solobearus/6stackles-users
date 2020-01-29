@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-
+const crypto = require('crypto');
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -13,7 +12,8 @@ const userSchema = new mongoose.Schema(
             type: String,
             trim: true,
             required: true,
-            unique: true
+            unique: true,
+            validate:/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
         },
         phone: {
             type: String,
@@ -30,10 +30,6 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: 0
         },
-        tokens: {
-            type: Array,
-            default: []
-        },
         salt: String
     },
     { timestamps: true }
@@ -41,7 +37,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema
     .virtual('password')
-    .set(function (password) {
+    .set(function (password){
         this._password = password;
         this.hashed_password = this.encryptPassword(password);
     })
