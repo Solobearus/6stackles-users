@@ -1,28 +1,30 @@
 const User = require('../models/user');
 
 exports.update = (req, res) => {
-    const query = req.params.userId || '';
+    const allowedFields = [
+        'name',
+        'phone',
+        'email',
+        'password',
+    ];
+    const fieldsToUpdate = {};
 
-    User.findOne({ _id: query })
-        .then((user) => {
-            user.hashed_password = undefined;
-            res.status(200).json(user);
-        })
-        .catch((err) => {
-            res.status(500).json(err);
-        })
-};
+    Object.keys(req.body).forEach(key => {
+        if (allowedFields.includes(key)) {
+            fieldsToUpdate[key] = req.body[key];
+        }
+    });
 
-exports.readAll = (req, res) => {
-    User.find({})
-        .then(users => {
-            users.map(user => {
-                user.hashed_password = undefined;
-                return user;
-            })
-            res.status(200).json(users);
-        })
-        .catch((err) => {
-            res.status(500).json(err);
+    User.findOne({ _id: req.params.userId })
+        .then(user => {
+            Object.keys(fieldsToUpdate).forEach(key => {
+                user[key] = fieldsToUpdate[key];
+            });
+            user.save((err) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+                res.status(200).send({ message: 'user updated successfully' });
+            });
         })
 };

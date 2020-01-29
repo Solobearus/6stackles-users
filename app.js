@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.post('/', create);
 app.get('/:userId', read);
 app.get('/', readAll);
-app.put('/', update);
+app.put('/:userId', update);
 app.delete('/', remove);
 
 module.exports = app;
