@@ -5,11 +5,9 @@ exports.create = (req, res) => {
 
     user.save((err, user) => {
         if (err) {
-            return res.status(400).json({
-                error: err.message
-            });
+            return res.status(400).json({ err });
         }
         user.hashed_password = undefined;
-        res.status(200).json({ msg: 'user deleted successfully' });
+        res.status(201).json({ msg: 'user created successfully' });
     });
 };

@@ -2,9 +2,10 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 
-const { read, readAll } = require('./routes/read');
+require('dotenv').config();
+
+const { read, readAll , ReadByEmailAndPassword} = require('./routes/read');
 const { create } = require('./routes/create');
 const { update } = require('./routes/update');
 const { remove } = require('./routes/delete');
@@ -12,7 +13,7 @@ const { remove } = require('./routes/delete');
 const app = express();
 
 mongoose
-    .connect("mongodb://localhost:27017/Users", {
+    .connect(process.env.DATABASE, {
         useNewUrlParser: true,
         useCreateIndex: true
     })
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 app.post('/', create);
 app.get('/', readAll);
+app.get('/ReadByEmailAndPassword', ReadByEmailAndPassword);
 app.get('/:userId', read);
 app.put('/:userId', update);
 app.delete('/:userId', remove);

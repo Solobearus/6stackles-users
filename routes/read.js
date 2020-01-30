@@ -28,3 +28,23 @@ exports.readAll = (req, res) => {
             res.status(500).json(err);
         })
 };
+
+
+exports.ReadByEmailAndPassword = (req, res) => {
+    //encrypt
+
+    console.log(req, "log in read@@@@@@@@@@@@@");
+
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if (user.authenticate(req.body.password)) {
+                res.status(200).json({ id: user._id });
+            } else {
+                //TODO:fix error 
+                res.status(500).json({ err: "email or password is incorrect" });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json(err);
+        })
+};
