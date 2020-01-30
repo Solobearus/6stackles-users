@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.post('/', create);
 app.get('/', readAll);
-app.get('/ReadByEmailAndPassword', ReadByEmailAndPassword);
+app.post('/ReadByEmailAndPassword', ReadByEmailAndPassword);
 app.get('/:userId', read);
 app.put('/:userId', update);
 app.delete('/:userId', remove);

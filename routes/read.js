@@ -31,20 +31,17 @@ exports.readAll = (req, res) => {
 
 
 exports.ReadByEmailAndPassword = (req, res) => {
-    //encrypt
+    const { email, password } = req.body;
 
-    console.log(req, "log in read@@@@@@@@@@@@@");
-
-    User.findOne({ email: req.body.email })
+    User.findOne({ email })
         .then(user => {
-            if (user.authenticate(req.body.password)) {
+            if (user.authenticate(password)) {
                 res.status(200).json({ id: user._id });
             } else {
-                //TODO:fix error 
-                res.status(500).json({ err: "email or password is incorrect" });
+                res.status(400).json({ err: "Wrong password, please try again." });
             }
         })
         .catch((err) => {
-            res.status(500).json(err);
+            res.status(400).json({msg: 'User with the specified email was not found, please try again.'});
         })
 };
