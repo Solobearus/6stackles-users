@@ -10,8 +10,6 @@ exports.create = (req, res) => {
             });
         }
         user.hashed_password = undefined;
-        res.json({
-            user
-        });
+        res.status(200).json({ msg: 'user deleted successfully' });
     });
 };

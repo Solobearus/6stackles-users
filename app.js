@@ -24,9 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.post('/', create);
-app.get('/:userId', read);
 app.get('/', readAll);
+app.get('/:userId', read);
 app.put('/:userId', update);
-app.delete('/', remove);
+app.delete('/:userId', remove);
 
 module.exports = app;
