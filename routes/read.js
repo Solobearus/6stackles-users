@@ -36,7 +36,7 @@ exports.ReadByEmailAndPassword = (req, res) => {
     User.findOne({ email })
         .then(user => {
             if (user.authenticate(password)) {
-                res.status(200).json({ id: user._id });
+                res.status(200).json({ id: user._id, name: user.name });
             } else {
                 res.status(400).json({ err: "Wrong password, please try again." });
             }
