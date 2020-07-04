@@ -17,7 +17,12 @@ mongoose
         useNewUrlParser: true,
         useCreateIndex: true
     })
-    .then(() => console.log('DB Connected doc'));
+    .then(() => console.log('DB Connected doc'))
+    .catch(e=> console.log(`error while connecting the DB at ${process.env.DATABASE}.
+    -
+    -
+    ERROR: 
+    ${e}`));
 
 app.use(logger('dev'));
 app.use(express.json());
